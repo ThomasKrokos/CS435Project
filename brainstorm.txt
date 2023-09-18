@@ -1,0 +1,24 @@
+Pages:
+
+Foodtracker
+- tracks calories and macros
+
+Step Counter
+
+Diagram of body with workouts
+
+Querying chatgpt for workout ideas/example splits
+
+Videos? or some sort of explanation for workouts
+
+Storing workouts in app
+
+Is there mobile caching or will we need to build a backend?
+would rather not do a backend tbh
+
+How much can we interact with native OS?
+- adding calendar updates for workouts
+- getting step count
+- notifs etc
+
+testing?
