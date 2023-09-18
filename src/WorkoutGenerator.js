@@ -6,3 +6,23 @@
 // Querying chatgpt for workout ideas/example splits
 
 // Videos? or some sort of explanation for workouts
+import { StatusBar } from "expo-status-bar";
+import { Button, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+
+const WorkoutGenerator = ({ navigation }) => {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>WorkoutGenerator</Text>
+      <Button
+        title="Go back to first screen in stack"
+        onPress={() => navigation.popToTop()}
+      />
+      <StatusBar style="auto" />
+    </View>
+  )
+}
+
+export default WorkoutGenerator
+
+const styles = StyleSheet.create({})
