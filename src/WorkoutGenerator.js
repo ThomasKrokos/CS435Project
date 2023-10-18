@@ -15,7 +15,7 @@ const WorkoutGenerator = ({ navigation }) => {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>WorkoutGenerator</Text>
       <Button
-        title="Go back to first screen in stack"
+        title="Go Back to Home"
         onPress={() => navigation.popToTop()}
       />
       <StatusBar style="auto" />

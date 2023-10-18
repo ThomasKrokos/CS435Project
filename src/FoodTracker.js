@@ -7,9 +7,9 @@ import React from 'react'
 const Foodtracker = ({ navigation }) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Foodtracker</Text>
+      <Text>FoodTracker</Text>
       <Button
-        title="Go back to first screen in stack"
+        title="Go Back to Home"
         onPress={() => navigation.popToTop()}
       />
       <StatusBar style="auto" />
