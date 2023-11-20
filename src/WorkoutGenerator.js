@@ -8,7 +8,9 @@
 // Videos? or some sort of explanation for workouts
 import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from 'react-native'
+import RoutineForm from "./RoutineForm";
 import React from 'react'
+import RoutineFormContainer from "./RoutineForm";
 
 const WorkoutGenerator = ({ navigation }) => {
   return (
@@ -18,6 +20,8 @@ const WorkoutGenerator = ({ navigation }) => {
         title="Go Back to Home"
         onPress={() => navigation.popToTop()}
       />
+      <Text>&nbsp;</Text>
+      <RoutineFormContainer />
       <StatusBar style="auto" />
     </View>
   )
