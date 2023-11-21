@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { View, Button, ScrollView, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 
 function RoutineForm() {
   const [workouts, setWorkouts] = useState([]);
+  const [formName, setFormName] = useState('');
+  const [selectedDays, setSelectedDays] = useState([]);
 
   const addWorkout = () => {
     const newWorkout = {
-      name: '',
+      name: formName,
       sets: '',
       reps: '',
       weight: '',
@@ -27,6 +30,13 @@ function RoutineForm() {
     updatedWorkouts.splice(index, 1);
     setWorkouts(updatedWorkouts);
   };
+
+  // const handleDayToggle = (day) => {
+  //   const updatedSelectedDays = selectedDays.includes(day)
+  //     ? selectedDays.filter((selectedDay) => selectedDay !== day)
+  //     : [...selectedDays, day];
+  //   setSelectedDays(updatedSelectedDays);
+  // };
 
   return (
     <View style={styles.RoutineForm}>
@@ -64,7 +74,22 @@ function RoutineForm() {
           </TouchableOpacity>
         </View>
       ))}
-        <Button title="Add Workout" onPress={addWorkout} />
+      <Button title="Add Workout" onPress={addWorkout} />
+      {/* <View style={styles.dayToggleContainer}>
+        <Text>Select Workout Days:</Text>
+        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+          <TouchableOpacity
+            key={day}
+            style={[
+              styles.dayToggle,
+              selectedDays.includes(day) && styles.selectedDayToggle,
+            ]}
+            onPress={() => handleDayToggle(day)}
+          >
+            <Text>{day}</Text>
+          </TouchableOpacity>
+        ))}
+      </View> */}
     </View>
   );
 }
@@ -72,8 +97,24 @@ function RoutineForm() {
 function RoutineFormContainer() {
   const [RoutineForms, setRoutineForms] = useState([]);
   const [formName, setFormName] = useState('');
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: 'Push, Pull, Legs', value: 'ppl' },
+    { label: 'Full Body', value: 'fb' },
+    { label: 'Custom', value: 'c' }
+  ]);
 
-  const addRoutineForm = () => {
+  // const CreateForm = (value) => {
+  //   if(value === "ppl") setFormName("Push")
+  //   if(value === "fb") setFormName("Full Body")
+  //   if(Value === "Custom") setFormName("Custom")
+  // }
+
+  const addRoutineForm = (value) => {
+    if (value === "ppl") setFormName("Push");
+    if (value === "fb") setFormName("Full Body");
+    if (Value === "c") setFormName("Custom");
     if (formName.trim() !== '') {
       const newForm = {
         name: formName,
@@ -93,6 +134,15 @@ function RoutineFormContainer() {
 
   return (
     <View style={styles.container}>
+      <DropDownPicker
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        onSelectItem={(value) => addRoutineForm}
+      />
       <ScrollView contentContainerStyle={styles.scrollView}>
         {RoutineForms.map((form, index) => (
           <View key={index} style={styles.formContainer}>
@@ -109,7 +159,6 @@ function RoutineFormContainer() {
           onChangeText={(text) => setFormName(text)}
           placeholder="Enter Form Name"
         />
-        <Button title="Add Workout Form" onPress={addRoutineForm} />
       </View>
     </View>
   );
@@ -177,6 +226,20 @@ const styles = StyleSheet.create({
   colon: {
     paddingBottom: 15,
     fontSize: 20,
+  },
+  dayToggleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  dayToggle: {
+    padding: 5,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'gray',
+  },
+  selectedDayToggle: {
+    backgroundColor: 'lightblue',
   },
 });
 

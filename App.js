@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Homepage from "./src/Homepage";
 import FoodTracker from "./src/FoodTracker";
 import WorkoutGenerator from "./src/WorkoutGenerator";
+import Calendar from "./src/Calendar";
 
 
 // In App.js in a new project
@@ -19,6 +20,7 @@ export default function App() {
         <Stack.Screen name="Home" component={Homepage} />
         <Stack.Screen name="Tracker" component={FoodTracker} />
         <Stack.Screen name="Workouts" component={WorkoutGenerator} />
+        <Stack.Screen name="Calendar" component={Calendar} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -8,19 +8,19 @@
 // Videos? or some sort of explanation for workouts
 import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from 'react-native'
-import RoutineForm from "./RoutineForm";
-import React from 'react'
+import React from 'react';
 import RoutineFormContainer from "./RoutineForm";
 
 const WorkoutGenerator = ({ navigation }) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>WorkoutGenerator</Text>
       <Button
         title="Go Back to Home"
         onPress={() => navigation.popToTop()}
       />
+      <Text>Create a Workout Plan!</Text>
       <Text>&nbsp;</Text>
+      <Text>Select your split: </Text>
       <RoutineFormContainer />
       <StatusBar style="auto" />
     </View>

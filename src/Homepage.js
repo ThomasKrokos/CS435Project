@@ -51,6 +51,10 @@ const Homepage = ({ navigation }) => {
         title="Go to Workouts"
         onPress={() => navigation.navigate("Workouts")}
       />
+      <Button
+        title="Go to Calendar"
+        onPress={() => navigation.navigate("Calendar")}
+      />
       <Text>Pedometer.isAvailableAsync(): {isPedometerAvailable}</Text>
       <Text>Steps taken in the last 24 hours: {pastStepCount}</Text>
       <Text>Walk! And watch this go up: {currentStepCount}</Text>
