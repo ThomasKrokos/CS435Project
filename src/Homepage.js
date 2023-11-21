@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import {
-  Button,
   Image,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -53,13 +53,14 @@ const Homepage = ({ navigation }) => {
         },
       ]}
     >
-      <TouchableOpacity
+      <Pressable
         style={{
           marginRight: "5%",
           alignItems: "flex-end",
           justifyContent: "flex-end",
           flex: 1,
         }}
+        onPress={() => navigation.navigate("Tracker")}
       >
         <Image
           source={require("../assets/profileicon.png")}
@@ -70,7 +71,7 @@ const Homepage = ({ navigation }) => {
           }}
           resizeMode="contain"
         />
-      </TouchableOpacity>
+      </Pressable>
 
       <View style={{ flex: 2 }}>
         <Text style={[styles.header, {}]}>Homepage</Text>
@@ -138,7 +139,7 @@ const Homepage = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <View style={{ flex: 2, marginTop:"5%" }}>
+      <View style={{ flex: 2, marginTop: "10%" }}>
         <Text
           style={{
             textAlign: "center",
@@ -173,12 +174,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
     margin: "1%",
     borderRadius: 20,
-    borderStyle: "solid",
-    borderColor: "#CC0000",
   },
   buttonTitle: {
     textAlign: "center",
     justifyContent: "center",
-    color: "#ffffff",
+    color: "#FFFFFF",
   },
 });
+
+// borderStyle: "solid",
+// borderWidth: 2,
+// borderColor: "#ee0000",
