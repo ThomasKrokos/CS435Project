@@ -25,15 +25,6 @@ export default function App() {
 
 
 
-  // return (
-  //   <NavigationContainer>
-  //     <View style={styles.container}>
-  //       <Stack.Navigator initialRouteName="Home">
-  //         <Stack.Screen name="Home" component={Homepage} />
-  //       </Stack.Navigator>
-  //     </View>
-  //   </NavigationContainer>
-  // );
 }
 
 const styles = StyleSheet.create({
