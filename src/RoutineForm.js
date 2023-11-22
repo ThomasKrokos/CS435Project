@@ -44,7 +44,7 @@ function RoutineForm() {
           <TextInput
             style={styles.workoutInput}
             value={workout.name}
-            placeholder="Workout Name"
+            placeholder="Workout Name "
             onChangeText={(text) => handleInputChange(index, 'name', text)}
           />
           <Text style={styles.colon}>:</Text>
@@ -131,6 +131,7 @@ function RoutineFormContainer() {
   const removeRoutineForm = (index) => {
     const newRoutineForms = [...RoutineForms];
     newRoutineForms.splice(index, 1);
+    if(newRoutineForms.length == 0) setSplitName('');
     setRoutineForms(newRoutineForms);
   };
 
@@ -145,20 +146,23 @@ function RoutineFormContainer() {
           </View>
         ))}
       </ScrollView>
-      <Text>Select your split: </Text>
-      <DropDownPicker
-        open={open}
-        value={value}
-        items={items}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setItems}
-        onSelectItem={item => MakeSplit(item)}
-      />
+      {splitName === '' && (
+        <View style={styles.dropdown}>
+          <Text>Select your split: </Text>
+          <DropDownPicker
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setItems}
+            onSelectItem={item => MakeSplit(item)}
+          />
+        </View>
+      )}
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   formName: {
@@ -175,6 +179,11 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     marginBottom: 10,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 15,
+    paddingVertical: '5%',
+    paddingHorizontal: '5%',
   },
   formNameContainer: {
     marginTop: 20,
@@ -237,6 +246,10 @@ const styles = StyleSheet.create({
   selectedDayToggle: {
     backgroundColor: 'lightblue',
   },
+  dropdown: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
 });
 
 export default RoutineFormContainer;
