@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Button, ScrollView, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -6,12 +6,11 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 function RoutineForm() {
   const [workouts, setWorkouts] = useState([]);
-  const [formName, setFormName] = useState('');
-  const [selectedDays, setSelectedDays] = useState([]);
+  // const [selectedDays, setSelectedDays] = useState([]);
 
   const addWorkout = () => {
     const newWorkout = {
-      name: formName,
+      name: '',
       sets: '',
       reps: '',
       weight: '',
@@ -97,32 +96,35 @@ function RoutineForm() {
 function RoutineFormContainer() {
   const [RoutineForms, setRoutineForms] = useState([]);
   const [formName, setFormName] = useState('');
+  const [splitName, setSplitName] = useState('');
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
     { label: 'Push, Pull, Legs', value: 'ppl' },
     { label: 'Full Body', value: 'fb' },
-    { label: 'Custom', value: 'c' }
   ]);
 
-  // const CreateForm = (value) => {
-  //   if(value === "ppl") setFormName("Push")
-  //   if(value === "fb") setFormName("Full Body")
-  //   if(Value === "Custom") setFormName("Custom")
-  // }
-
-  const addRoutineForm = (value) => {
-    if (value === "ppl") setFormName("Push");
-    if (value === "fb") setFormName("Full Body");
-    if (Value === "c") setFormName("Custom");
-    if (formName.trim() !== '') {
+  useEffect(() => {
+    if (splitName !== '' && formName !== '') {
+      formName.forEach((name) => {
+        addRoutineForm(name);
+      });
+    }
+  }, [splitName, formName]);
+  
+  const MakeSplit = (item) => {
+    setSplitName(item.label);
+    if (item.value === 'ppl') setFormName(["Push", "Pull", "Legs"]);
+    else if (item.value === 'fb') setFormName(["Full Body"]);
+  }
+  
+  const addRoutineForm = (name) => {
+    if (name.trim() !== '') {
       const newForm = {
-        name: formName,
+        name: name,
         component: <RoutineForm key={RoutineForms.length} />,
       };
-      const newRoutineForms = [...RoutineForms, newForm];
-      setRoutineForms(newRoutineForms);
-      setFormName('');
+      setRoutineForms((prevForms) => [...prevForms, newForm]);
     }
   };
 
@@ -134,15 +136,6 @@ function RoutineFormContainer() {
 
   return (
     <View style={styles.container}>
-      <DropDownPicker
-        open={open}
-        value={value}
-        items={items}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setItems}
-        onSelectItem={(value) => addRoutineForm}
-      />
       <ScrollView contentContainerStyle={styles.scrollView}>
         {RoutineForms.map((form, index) => (
           <View key={index} style={styles.formContainer}>
@@ -152,17 +145,20 @@ function RoutineFormContainer() {
           </View>
         ))}
       </ScrollView>
-      <View style={styles.formNameContainer}>
-        <TextInput
-          style={styles.input}
-          value={formName}
-          onChangeText={(text) => setFormName(text)}
-          placeholder="Enter Form Name"
-        />
-      </View>
+      <Text>Select your split: </Text>
+      <DropDownPicker
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        onSelectItem={item => MakeSplit(item)}
+      />
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   formName: {

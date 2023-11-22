@@ -20,7 +20,6 @@ const WorkoutGenerator = ({ navigation }) => {
       />
       <Text>Create a Workout Plan!</Text>
       <Text>&nbsp;</Text>
-      <Text>Select your split: </Text>
       <RoutineFormContainer />
       <StatusBar style="auto" />
     </View>
