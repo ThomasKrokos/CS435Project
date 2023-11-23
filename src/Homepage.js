@@ -53,25 +53,33 @@ const Homepage = ({ navigation }) => {
         },
       ]}
     >
-      <Pressable
-        style={{
-          marginRight: "5%",
-          alignItems: "flex-end",
-          justifyContent: "flex-end",
-          flex: 1,
-        }}
-        onPress={() => navigation.navigate("Tracker")}
-      >
-        <Image
-          source={require("../assets/profileicon.png")}
-          style={{
-            width: "15%",
-            height: "15%",
-            flex: 1,
-          }}
-          resizeMode="contain"
-        />
-      </Pressable>
+      <View style={{ flex: 1, flexDirection: "row" }}>
+        <View style={{ flex: 5 }}></View>
+        <Pressable
+          style={({ pressed }) => [
+            {
+              marginRight: "5%",
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+              flex: 1,
+              backgroundColor: pressed ? "#bbbbbb" : "#f2f2f2",
+              borderRadius: "50px",
+              // #f2f2f2 is default background color
+            },
+          ]}
+          onPress={() => navigation.navigate("Tracker")} // This will go to Profile Component once that is built
+        >
+          <Image
+            source={require("../assets/profileicon.png")}
+            style={{
+              width: "100%",
+              height: "100%",
+              flex: 1,
+            }}
+            resizeMode="contain"
+          />
+        </Pressable>
+      </View>
 
       <View style={{ flex: 2 }}>
         <Text style={[styles.header, {}]}>Homepage</Text>
@@ -84,8 +92,15 @@ const Homepage = ({ navigation }) => {
       </View>
 
       <View style={{ flex: 3, flexDirection: "row" }}>
-        <TouchableOpacity
-          style={[styles.button, { flex: 1, padding: "5%" }]}
+        <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            {
+              flex: 1,
+              padding: "5%",
+              backgroundColor: pressed ? "#bbbbbb" : "#000000",
+            },
+          ]}
           onPress={() => navigation.navigate("Tracker")}
         >
           <Text
@@ -119,10 +134,17 @@ const Homepage = ({ navigation }) => {
           >
             0/100 Grams Protein
           </Text>
-        </TouchableOpacity>
+        </Pressable>
 
-        <TouchableOpacity
-          style={[styles.button, { flex: 1, padding: "5%" }]}
+        <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            {
+              flex: 1,
+              padding: "5%",
+              backgroundColor: pressed ? "#bbbbbb" : "#000000",
+            },
+          ]}
           onPress={() => navigation.navigate("Workouts")}
         >
           <Text
@@ -136,7 +158,7 @@ const Homepage = ({ navigation }) => {
           >
             Start New Workout Plan!
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
       <View style={{ flex: 2, marginTop: "10%" }}>
@@ -181,7 +203,3 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
   },
 });
-
-// borderStyle: "solid",
-// borderWidth: 2,
-// borderColor: "#ee0000",
