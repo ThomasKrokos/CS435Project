@@ -1,9 +1,14 @@
-// Add step counter in here
-// this will be the first page they see
-// with navigation to the other pages
 import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
+import { RFValue } from "react-native-responsive-fontsize";
 
 /*********  Stuff for Step Counter  *********/
 import { useState, useEffect } from "react";
@@ -40,20 +45,133 @@ const Homepage = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>We will have a step tracker here</Text>
-      <Text>This is the Homepage</Text>
-      <Button
-        title="Go to FoodTracker"
-        onPress={() => navigation.navigate("Tracker")}
-      />
-      <Button
-        title="Go to Workouts"
-        onPress={() => navigation.navigate("Workouts")}
-      />
-      <Text>Pedometer.isAvailableAsync(): {isPedometerAvailable}</Text>
-      <Text>Steps taken in the last 24 hours: {pastStepCount}</Text>
-      <Text>Walk! And watch this go up: {currentStepCount}</Text>
+    <View
+      style={[
+        styles.container,
+        {
+          flexDirection: "column",
+        },
+      ]}
+    >
+      <View style={{ flex: 1, flexDirection: "row" }}>
+        <View style={{ flex: 5 }}></View>
+        <Pressable
+          style={({ pressed }) => [
+            {
+              marginRight: "5%",
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+              flex: 1,
+              backgroundColor: pressed ? "#bbbbbb" : "#f2f2f2",
+              borderRadius: "50px",
+              // #f2f2f2 is default background color
+            },
+          ]}
+          onPress={() => navigation.navigate("Tracker")} // This will go to Profile Component once that is built
+        >
+          <Image
+            source={require("../assets/profileicon.png")}
+            style={{
+              width: "100%",
+              height: "100%",
+              flex: 1,
+            }}
+            resizeMode="contain"
+          />
+        </Pressable>
+      </View>
+
+      <View style={{ flex: 2 }}>
+        <Text style={[styles.header, {}]}>Homepage</Text>
+      </View>
+
+      <View style={{ flex: 2 }}>
+        <Text style={[styles.header, {}]}>
+          This is where Stats will display
+        </Text>
+      </View>
+
+      <View style={{ flex: 3, flexDirection: "row" }}>
+        <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            {
+              flex: 1,
+              padding: "5%",
+              backgroundColor: pressed ? "#bbbbbb" : "#000000",
+            },
+          ]}
+          onPress={() => navigation.navigate("Tracker")}
+        >
+          <Text
+            style={[
+              styles.buttonTitle,
+              {
+                fontSize: RFValue(18),
+                fontWeight: "bold",
+              },
+            ]}
+          >
+            Foodtracker
+          </Text>
+          <Text
+            style={[
+              styles.buttonTitle,
+              {
+                fontSize: RFValue(16),
+              },
+            ]}
+          >
+            0/2000 Calories
+          </Text>
+          <Text
+            style={[
+              styles.buttonTitle,
+              {
+                fontSize: RFValue(14),
+              },
+            ]}
+          >
+            0/100 Grams Protein
+          </Text>
+        </Pressable>
+
+        <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            {
+              flex: 1,
+              padding: "5%",
+              backgroundColor: pressed ? "#bbbbbb" : "#000000",
+            },
+          ]}
+          onPress={() => navigation.navigate("Workouts")}
+        >
+          <Text
+            style={[
+              styles.buttonTitle,
+              {
+                fontSize: RFValue(26),
+                fontWeight: "bold",
+              },
+            ]}
+          >
+            Start New Workout Plan!
+          </Text>
+        </Pressable>
+      </View>
+
+      <View style={{ flex: 2, marginTop: "10%" }}>
+        <Text
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            fontSize: RFValue(20),
+          }}
+        >
+          {pastStepCount}/10,000 Steps!
+        </Text>
+      </View>
 
       <StatusBar style="auto" />
     </View>
@@ -62,4 +180,26 @@ const Homepage = ({ navigation }) => {
 
 export default Homepage;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: "10%",
+  },
+  header: {
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: RFValue(32),
+  },
+  button: {
+    textAlign: "center",
+    justifyContent: "center",
+    backgroundColor: "#000000",
+    margin: "1%",
+    borderRadius: 20,
+  },
+  buttonTitle: {
+    textAlign: "center",
+    justifyContent: "center",
+    color: "#FFFFFF",
+  },
+});
