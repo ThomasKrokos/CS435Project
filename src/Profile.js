@@ -10,8 +10,7 @@ import {
 import { useState, useEffect } from "react";
 
 import { RFValue } from "react-native-responsive-fontsize";
-import { Picker } from "@react-native-picker/picker";
-
+import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import React from "react";
 
 const Profile = ({ navigation }) => {
@@ -21,6 +20,17 @@ const Profile = ({ navigation }) => {
   const [weight, setWeight] = useState(0);
   const [height, setHeight] = useState(0);
 
+  const genderOptions = ["Male", "Female"];
+  const handleSubmit = () => {
+    const profile = {
+      name: name,
+      gender: gender,
+      age: age,
+      weight: weight,
+      height: height,
+    };
+    console.log(profile);
+  };
   return (
     <View
       style={[
@@ -46,6 +56,7 @@ const Profile = ({ navigation }) => {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
+            margin: "5%, 0, 20%",
           }}
         >
           <View style={{ flex: 8 }}></View>
@@ -88,7 +99,7 @@ const Profile = ({ navigation }) => {
         </View>
         <View
           style={{
-            flex: 0.5,
+            flex: 0.6,
             flexDirection: "column",
             margin: "0%, 10%",
           }}
@@ -104,7 +115,7 @@ const Profile = ({ navigation }) => {
             <Text style={[styles.smallText, { flex: 0.25 }]}>Name:</Text>
             <TextInput
               style={[styles.textInput, { flex: 0.5 }]}
-              placeholder="Name"
+              placeholder="name"
               onChangeText={(text) => setName(text)}
             />
             <View style={{ flex: 0.25 }}></View>
@@ -120,7 +131,7 @@ const Profile = ({ navigation }) => {
             <Text style={[styles.smallText, { flex: 0.25 }]}>Age:</Text>
             <TextInput
               style={[styles.textInput, { flex: 0.25 }]}
-              placeholder="Age"
+              placeholder="age"
               keyboardType="number-pad"
               onChangeText={(text) => setAge(text)}
             />
@@ -161,11 +172,22 @@ const Profile = ({ navigation }) => {
             />
             <View style={{ flex: 0.5 }}></View>
           </View>
-
-
+          <View style={{ flex: 1, marginTop: "10%" }}>
+            <SegmentedControl
+              values={genderOptions}
+              selectedIndex={gender}
+              style={{}}
+              onChange={(event) => {
+                console.log(
+                  genderOptions[event.nativeEvent.selectedSegmentIndex]
+                );
+                setGender(event.nativeEvent.selectedSegmentIndex);
+              }}
+            />
+          </View>
         </View>
 
-        <View style={{ flex: 0.1 }}>
+        <View style={{ flex: 0.13, marginLeft: "20%", marginRight: "20%" }}>
           <Pressable
             style={({ pressed }) => [
               styles.button,
@@ -175,7 +197,7 @@ const Profile = ({ navigation }) => {
                 backgroundColor: pressed ? "#bbbbbb" : "#000000",
               },
             ]}
-            onPress={() => navigation.navigate("Homepage")}
+            onPress={() => handleSubmit()}
           >
             <Text
               style={[
@@ -190,7 +212,6 @@ const Profile = ({ navigation }) => {
             </Text>
           </Pressable>
         </View>
-        <View style={{ flex: 0.2 }}></View>
       </Pressable>
     </View>
   );
@@ -225,7 +246,7 @@ const styles = StyleSheet.create({
     borderColor: "#A3A3A3",
     borderWidth: 1,
     borderRadius: 20,
-    padding: "5%",
+    padding: "4%",
     fontSize: RFValue(16),
   },
 
