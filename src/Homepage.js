@@ -56,8 +56,12 @@ const Homepage = ({ navigation }) => {
       <View style={{ flex: 1, flexDirection: "row" }}>
         <View style={{ flex: 5 }}>
           <Text style={{textAlign:"right", justifyContent:"center"}}>
-            Create/Update Your Profile -&gt; 
-            {/* conditional will be added later */}
+            
+            {/* conditional will be added later
+            Create a Profile for Personalized Nutritional Information -&gt; 
+            and
+              Other option will be Update Profile
+             */}
           </Text>
         </View>
         <Pressable
