@@ -14,8 +14,7 @@ import SegmentedControl from "@react-native-segmented-control/segmented-control"
 import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
-const Profile = ({ navigation }) => {
+const Profile = ({navigation, handleProfileCreation, handleProfileDeletion}) => {
   const [name, setName] = useState("");
   const [gender, setGender] = useState("Male");
   const [age, setAge] = useState(0);
@@ -29,8 +28,8 @@ const Profile = ({ navigation }) => {
   ]);
 
   const genderOptions = ["Male", "Female"];
-  const handleSubmit = () => {
-    console.log(fieldsFilled);
+
+  const handleSubmit = async () => {
 
     if (
       fieldsFilled[0] &&
@@ -45,8 +44,19 @@ const Profile = ({ navigation }) => {
         weight: weight,
         height: height,
       };
-      console.log(profile);
-      navigation.navigate("ViewProfile")
+
+      try {
+        const profileString = JSON.stringify(profile);
+        console.log(profileString + "createProfile.js");
+
+        await AsyncStorage.setItem("profile", profileString);
+      } catch (e) {
+        // console.error(e);
+      }
+      handleProfileCreation(profile);
+      // navigation.navigate("ViewProfile")
+    } else {
+      console.error("Please fill out all fields");
     }
   };
 
@@ -67,7 +77,7 @@ const Profile = ({ navigation }) => {
             margin: "5%",
           },
         ]}
-        onPress={Keyboard.dismiss}
+        onPress={() => Keyboard.dismiss}
       >
         <View
           style={{
@@ -89,7 +99,8 @@ const Profile = ({ navigation }) => {
                 // #f2f2f2 is default background color
               },
             ]}
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("Home")}
+
           >
             <Image
               source={require("../../assets/close.png")}
@@ -249,6 +260,40 @@ const Profile = ({ navigation }) => {
               ]}
             >
               Submit
+            </Text>
+          </Pressable>
+        </View>
+
+        <View style={{ flex: 0.07, marginLeft: "30%", marginTop: "5%" }}>
+          <Pressable
+            style={({ pressed }) => [
+              styles.button,
+              {
+                flex: 1,
+                padding: "2%",
+                backgroundColor: pressed ? "#bbbbbb" : "#000000",
+              },
+            ]}
+            onPress={async () => {
+              try {
+                await AsyncStorage.removeItem("profile");
+                handleProfileDeletion;
+                console.log("Profile deleted");
+              } catch (e) {
+                console.error(e);
+              }
+            }}
+          >
+            <Text
+              style={[
+                styles.buttonTitle,
+                {
+                  fontSize: RFValue(18),
+                  fontWeight: "bold",
+                },
+              ]}
+            >
+              Clear current Profile
             </Text>
           </Pressable>
         </View>
