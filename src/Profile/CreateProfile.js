@@ -12,6 +12,8 @@ import { useState, useEffect } from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const Profile = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -19,18 +21,35 @@ const Profile = ({ navigation }) => {
   const [age, setAge] = useState(0);
   const [weight, setWeight] = useState(0);
   const [height, setHeight] = useState(0);
+  const [fieldsFilled, setFieldsFilled] = useState([
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   const genderOptions = ["Male", "Female"];
   const handleSubmit = () => {
-    const profile = {
-      name: name,
-      gender: gender,
-      age: age,
-      weight: weight,
-      height: height,
-    };
-    console.log(profile);
+    console.log(fieldsFilled);
+
+    if (
+      fieldsFilled[0] &&
+      fieldsFilled[1] &&
+      fieldsFilled[2] &&
+      fieldsFilled[3]
+    ) {
+      const profile = {
+        name: name,
+        gender: gender,
+        age: age,
+        weight: weight,
+        height: height,
+      };
+      console.log(profile);
+      navigation.navigate("ViewProfile")
+    }
   };
+
   return (
     <View
       style={[
@@ -73,7 +92,7 @@ const Profile = ({ navigation }) => {
             onPress={() => navigation.goBack()}
           >
             <Image
-              source={require("../assets/close.png")}
+              source={require("../../assets/close.png")}
               style={{
                 width: "100%",
                 height: "100%",
@@ -116,7 +135,12 @@ const Profile = ({ navigation }) => {
             <TextInput
               style={[styles.textInput, { flex: 0.5 }]}
               placeholder="name"
-              onChangeText={(text) => setName(text)}
+              onChangeText={(text) => {
+                setName(text);
+                const updatedFieldsFilled = [...fieldsFilled];
+                updatedFieldsFilled[0] = true;
+                setFieldsFilled(updatedFieldsFilled);
+              }}
             />
             <View style={{ flex: 0.25 }}></View>
           </View>
@@ -133,7 +157,13 @@ const Profile = ({ navigation }) => {
               style={[styles.textInput, { flex: 0.25 }]}
               placeholder="age"
               keyboardType="number-pad"
-              onChangeText={(text) => setAge(text)}
+              onChangeText={(text) => {
+                setAge(text);
+
+                const updatedFieldsFilled = [...fieldsFilled];
+                updatedFieldsFilled[1] = true;
+                setFieldsFilled(updatedFieldsFilled);
+              }}
             />
             <View style={{ flex: 0.5 }}></View>
           </View>
@@ -150,7 +180,12 @@ const Profile = ({ navigation }) => {
             <TextInput
               style={[styles.textInput, { flex: 0.25 }]}
               keyboardType="number-pad"
-              onChangeText={(text) => setWeight(text)}
+              onChangeText={(text) => {
+                setWeight(text);
+                const updatedFieldsFilled = [...fieldsFilled];
+                updatedFieldsFilled[2] = true;
+                setFieldsFilled(updatedFieldsFilled);
+              }}
               placeholder="lbs"
             />
             <View style={{ flex: 0.5 }}></View>
@@ -167,7 +202,12 @@ const Profile = ({ navigation }) => {
             <TextInput
               style={[styles.textInput, { flex: 0.25 }]}
               keyboardType="number-pad"
-              onChangeText={(text) => setHeight(text)}
+              onChangeText={(text) => {
+                setHeight(text);
+                const updatedFieldsFilled = [...fieldsFilled];
+                updatedFieldsFilled[3] = true;
+                setFieldsFilled(updatedFieldsFilled);
+              }}
               placeholder="inches"
             />
             <View style={{ flex: 0.5 }}></View>
