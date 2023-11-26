@@ -19,13 +19,9 @@ const Profile = ({ navigation }) => {
     setProfileExists(true);
     setProfile(profile);
   };
-  const handleProfileDeletion = () => {
-    setProfileExists(false);
-    setProfile(defaultProfile);
-  };
+
 
   useEffect(() => {
-    console.log("line 15 of Profile.js");
     const getProfile = async () => {
       try {
         const value = await AsyncStorage.getItem("profile");
@@ -57,7 +53,6 @@ const Profile = ({ navigation }) => {
       {profileExists ? (
         <ViewProfile
           handleProfileCreation={handleProfileCreation}
-          handleProfileDeletion={handleProfileDeletion}
           navigation={navigation}
           name={profile.name}
           age={profile.age}
@@ -69,7 +64,6 @@ const Profile = ({ navigation }) => {
         <CreateProfile
           navigation={navigation}
           handleProfileCreation={handleProfileCreation}
-          handleProfileDeletion={handleProfileDeletion}
         />
       )}
     </View>

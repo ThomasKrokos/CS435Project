@@ -13,9 +13,9 @@ import SegmentedControl from "@react-native-segmented-control/segmented-control"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 
-const ViewProfile = ({navigation, name, gender, height, weight, age, handleProfileDeletion}) => {
+const ViewProfile = ({ navigation, name, gender, height, weight, age }) => {
   useEffect(() => {
-    console.log(name);
+    console.log(gender);
   }, []);
   return (
     <View style={[styles.container, { flexDirection: "column", margin: "5%" }]}>
@@ -82,7 +82,7 @@ const ViewProfile = ({navigation, name, gender, height, weight, age, handleProfi
             alignItems: "center",
           }}
         >
-          <Text style={[styles.smallText, { flex:1}]}>Name: {name}</Text>
+          <Text style={[styles.smallText, { flex: 1 }]}>Name: {name}</Text>
         </View>
         <View
           style={{
@@ -116,8 +116,7 @@ const ViewProfile = ({navigation, name, gender, height, weight, age, handleProfi
             alignItems: "center",
           }}
         >
-          <Text style={[styles.smallText, { flex:1 }]}>Height: {height}</Text>
-
+          <Text style={[styles.smallText, { flex: 1 }]}>Height: {height}</Text>
         </View>
 
         <View
@@ -126,7 +125,6 @@ const ViewProfile = ({navigation, name, gender, height, weight, age, handleProfi
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-
           }}
         >
           <Text style={[styles.smallText, { flex: 1 }]}>Gender: {gender}</Text>
@@ -143,6 +141,7 @@ const ViewProfile = ({navigation, name, gender, height, weight, age, handleProfi
               backgroundColor: pressed ? "#bbbbbb" : "#000000",
             },
           ]}
+          onPress={() => navigation.push("UpdateProfile")}
         >
           <Text
             style={[
@@ -171,7 +170,6 @@ const ViewProfile = ({navigation, name, gender, height, weight, age, handleProfi
             try {
               await AsyncStorage.removeItem("profile");
               console.log("Profile deleted");
-              handleProfileDeletion;
             } catch (e) {
               console.error(e);
             }

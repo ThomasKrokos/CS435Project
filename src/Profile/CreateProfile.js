@@ -14,7 +14,7 @@ import SegmentedControl from "@react-native-segmented-control/segmented-control"
 import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Profile = ({navigation, handleProfileCreation, handleProfileDeletion}) => {
+const Profile = ({navigation, handleProfileCreation}) => {
   const [name, setName] = useState("");
   const [gender, setGender] = useState("Male");
   const [age, setAge] = useState(0);
@@ -47,7 +47,6 @@ const Profile = ({navigation, handleProfileCreation, handleProfileDeletion}) => 
 
       try {
         const profileString = JSON.stringify(profile);
-        console.log(profileString + "createProfile.js");
 
         await AsyncStorage.setItem("profile", profileString);
       } catch (e) {
@@ -77,7 +76,7 @@ const Profile = ({navigation, handleProfileCreation, handleProfileDeletion}) => 
             margin: "5%",
           },
         ]}
-        onPress={() => Keyboard.dismiss}
+        onPress={Keyboard.dismiss}
       >
         <View
           style={{
@@ -226,13 +225,10 @@ const Profile = ({navigation, handleProfileCreation, handleProfileDeletion}) => 
           <View style={{ flex: 1, marginTop: "10%" }}>
             <SegmentedControl
               values={genderOptions}
-              selectedIndex={gender}
+              selectedIndex={0}
               style={{}}
               onChange={(event) => {
-                console.log(
-                  genderOptions[event.nativeEvent.selectedSegmentIndex]
-                );
-                setGender(event.nativeEvent.selectedSegmentIndex);
+                setGender(genderOptions[event.nativeEvent.selectedSegmentIndex]);
               }}
             />
           </View>
@@ -277,7 +273,6 @@ const Profile = ({navigation, handleProfileCreation, handleProfileDeletion}) => 
             onPress={async () => {
               try {
                 await AsyncStorage.removeItem("profile");
-                handleProfileDeletion;
                 console.log("Profile deleted");
               } catch (e) {
                 console.error(e);

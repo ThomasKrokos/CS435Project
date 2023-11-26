@@ -5,6 +5,7 @@ import Homepage from "./src/Homepage";
 import FoodTracker from "./src/FoodTracker";
 import WorkoutGenerator from "./src/WorkoutGenerator";
 import Profile from "./src/Profile";
+import UpdateProfile from "./src/Profile/UpdateProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,8 @@ export default function App() {
         <Stack.Screen name="Tracker" component={FoodTracker} />
         <Stack.Screen name="Workouts" component={WorkoutGenerator} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
+
 
       </Stack.Navigator>
     </NavigationContainer>
