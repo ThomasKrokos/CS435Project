@@ -4,7 +4,6 @@ import {
   Pressable,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import React from "react";
@@ -54,7 +53,16 @@ const Homepage = ({ navigation }) => {
       ]}
     >
       <View style={{ flex: 1, flexDirection: "row" }}>
-        <View style={{ flex: 5 }}></View>
+        <View style={{ flex: 5 }}>
+          <Text style={{textAlign:"right", justifyContent:"center"}}>
+            
+            {/* conditional will be added later
+            Create a Profile for Personalized Nutritional Information -&gt; 
+            and
+              Other option will be Update Profile
+             */}
+          </Text>
+        </View>
         <Pressable
           style={({ pressed }) => [
             {
@@ -67,7 +75,7 @@ const Homepage = ({ navigation }) => {
               // #f2f2f2 is default background color
             },
           ]}
-          onPress={() => navigation.navigate("Tracker")} // This will go to Profile Component once that is built
+          onPress={() => navigation.navigate("Profile")}
         >
           <Image
             source={require("../assets/profileicon.png")}
