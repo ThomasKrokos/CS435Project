@@ -5,6 +5,7 @@ import Homepage from "./src/Homepage";
 import FoodTracker from "./src/FoodTracker";
 import WorkoutGenerator from "./src/WorkoutGenerator";
 import Calendar from "./src/Calendar";
+import WorkoutForm from "./src/WorkoutForm";
 
 
 // In App.js in a new project
@@ -21,6 +22,7 @@ export default function App() {
         <Stack.Screen name="Tracker" component={FoodTracker} />
         <Stack.Screen name="Workouts" component={WorkoutGenerator} />
         <Stack.Screen name="Calendar" component={Calendar} />
+        <Stack.Screen name ="WorkoutForm" component={WorkoutForm} />
       </Stack.Navigator>
     </NavigationContainer>
   );
