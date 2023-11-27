@@ -13,9 +13,25 @@ import { RFValue } from "react-native-responsive-fontsize";
 
 import React from "react";
 
+
+
 const Foodtracker = ({ navigation }) => {
+  const [calorieCount, SetCalorieCount] = useState(0)
+
+
+  const getNutrientTracker = () => {};
+  const updateCalorieCount = () => {console.log("Blurred")};
+  const updateProteinCount = () => {console.log("Blurred")};
+
+//   NutrientTracker: {
+//     currentCal: "" // current amount of calories you ate today so far
+//     targetCal: "" // target amount of calories to eat based on profile.bodyweight
+//     currentProtein: "" // current amount of protein you ate today so far
+//     targetProtein: "" // target amount of protein based on profile.bodyweight
+//     Date
+// }
   return (
-    <View style={[ { flex: 1, flexDirection: "column" }]}>
+    <View style={[{ flex: 1, flexDirection: "column" }]}>
       <Pressable
         style={[
           styles.container,
@@ -36,6 +52,7 @@ const Foodtracker = ({ navigation }) => {
             style={[styles.textInput, { marginRight: "0%" }]}
             placeholder="0"
             keyboardType="number-pad"
+            onBlur={()=> updateCalorieCount()}
           />
           <Text style={[styles.header, { marginLeft: "0%" }]}> / 2000</Text>
         </Pressable>
@@ -51,11 +68,12 @@ const Foodtracker = ({ navigation }) => {
             style={[styles.textInput, { marginRight: "0%" }]}
             placeholder="0"
             keyboardType="number-pad"
+            onBlur={()=> updateProteinCount()}
           />
           <Text style={[styles.header, { marginLeft: "0%" }]}> / 100</Text>
         </Pressable>
-        <Pressable style={[{ flex: 1 }]} onPress={() => navigation.popToTop()}>
-          <Text>Return to Home</Text>
+        <Pressable style={[{ flex: 4, }]} onPress={() => navigation.popToTop()}>
+          <Text >Return to Home</Text>
         </Pressable>
 
         <StatusBar style="auto" />
@@ -91,9 +109,9 @@ const styles = StyleSheet.create({
     borderColor: "#A3A3A3",
     borderWidth: 1,
     borderRadius: 20,
-  
+
     fontSize: RFValue(32),
-    padding:"5%"
+    padding: "5%",
   },
 
   smallText: {
