@@ -1,6 +1,7 @@
 // Add step counter in here
 // this will be the first page they see
 // with navigation to the other pages
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import React from "react";
@@ -34,6 +35,16 @@ const Homepage = ({ navigation }) => {
     }
   };
 
+  const routinePage = async () => {
+    try {
+      const split = await AsyncStorage.getItem('split');
+      if(split !== null) navigation.navigate('MyWorkouts');
+      else navigation.navigate('Workouts');
+    } catch (error) {
+      console.log("Error navigating to workout page");
+    }
+  }
+
   useEffect(() => {
     const subscription = subscribe();
     return () => subscription && subscription.remove();
@@ -49,7 +60,7 @@ const Homepage = ({ navigation }) => {
       />
       <Button
         title="Go to Workouts"
-        onPress={() => navigation.navigate("Workouts")}
+        onPress={routinePage}
       />
       <Button
         title="Go to Calendar"

@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 const WorkoutGenerator = ({ route }) => {
   const [RoutineForms, setRoutineForms] = useState([]);
   const [formName, setFormName] = useState('');
+  const [splitName, setSplitName] = useState('');
   const [open, setOpen] = useState(false);
   const params = useMemo(() => route.params || {}, [route.params])
   const [updated, update] = useState(false)
@@ -29,11 +30,7 @@ const WorkoutGenerator = ({ route }) => {
   }, [params, saveRoutineForm])
 
   const MakeSplit = async (item) => {
-    try {
-      await AsyncStorage.setItem('split', JSON.stringify(item.label));
-    } catch (error) {
-      console.log("Error saving split name");
-    }
+    setSplitName(item.label);
     if (item.value === 'ppl') setFormName(["Push", "Pull", "Legs"]);
     else if (item.value === 'fb') setFormName(["Full Body"]);
   }
@@ -43,7 +40,7 @@ const WorkoutGenerator = ({ route }) => {
       name: name,
       workouts: [],
       component: (
-        <View>
+        <View style={styles.editButton}>
           <Button title="Edit Form" onPress={() => navigation.navigate('WorkoutForm', { name: newForm.name, workouts: newForm.workouts })} />
         </View>
       ),
@@ -65,10 +62,24 @@ const WorkoutGenerator = ({ route }) => {
     setRoutineForms(newRoutineForms);
   };
 
-  const saveRoutineForm = (name, workouts) => {
+  const saveRoutineForm = async (name, workouts) => {
     const form = RoutineForms.find((aForm) => aForm.name == name);
     form.workouts = workouts;
     update(!updated);
+
+    let complete = true;
+    for (x = 0; x < RoutineForms.length; x++) {
+      if (RoutineForms[x].workouts.length == 0) complete = false;
+    }
+
+    if (complete) {
+      try {
+        await AsyncStorage.setItem('split', JSON.stringify(splitName));
+        navigation.navigate('MyWorkouts', { name: splitName });
+      } catch (error) {
+        console.log("Error saving split name: " + error);
+      }
+    }
   }
 
   return (
@@ -78,11 +89,14 @@ const WorkoutGenerator = ({ route }) => {
         {RoutineForms.map((form, index) => (
           <View key={index} style={styles.formContainer}>
             <Text style={styles.formName}>{form.name}</Text>
+            <View
+              style={styles.hr}
+            />
             {form.workouts.length == 0 && (
               <View>{form.component}</View>
             )}
             {form.workouts.length > 0 && (
-              <Text>Workout Created!</Text>
+              <Text style={styles.editButton}>Workout Created!</Text>
             )}
             <Button title="Remove Form" onPress={() => removeRoutineForm(index)} />
           </View>
@@ -110,7 +124,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 20,
-    marginBottom: 20,
+    marginTop: '10%',
   },
   container: {
     flex: 1,
@@ -118,8 +132,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
+  editButton: {
+    marginVertical: '5%',
+    paddingHorizontal: '2.5%'
+  },
   scrollView: {
     alignItems: 'center',
+    marginTop: '10%',
   },
   formContainer: {
     marginBottom: 10,
@@ -190,11 +209,16 @@ const styles = StyleSheet.create({
   selectedDayToggle: {
     backgroundColor: 'lightblue',
   },
+  hr: {
+    borderBottomColor: 'black',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginBottom: 5,
+  },
   dropdown: {
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top: '10%',
+    top: '12.5%',
     width: '95%'
   }
 });

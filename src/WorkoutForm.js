@@ -1,15 +1,18 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, ScrollView, TextInput, Text, Button, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
-import { DeviceEventEmitter } from "react-native"
 
 const WorkoutForm = ({ route }) => {
     const { name, workoutList } = route.params;
     const [workouts, setWorkouts] = useState([]);
     const [formName] = useState(name);
     const navigation = useNavigation();
+
+    useEffect(() => {
+        if(workoutList != undefined) setWorkouts(workoutList);
+    }, workoutList);
 
     const handleInputChange = (index, fieldName, value) => {
         const updatedWorkouts = [...workouts];
@@ -44,7 +47,8 @@ const WorkoutForm = ({ route }) => {
         } catch (error) {
             console.log("Error saving form")
         }
-        navigation.navigate('Workouts', {name: formData.formName, workouts: formData.workouts});
+        if(workoutList == undefined) navigation.navigate('Workouts', { name: formData.formName, workouts: formData.workouts });
+        else navigation.navigate('MyWorkouts');
     };
 
     return (
@@ -59,41 +63,43 @@ const WorkoutForm = ({ route }) => {
                         <Text>No Workouts to Display.</Text>
                     </View>
                 )}
-                {workouts.map((workout, index) => (
-                    <View key={index} style={styles.workoutContainer}>
-                        <Text style={styles.count}>{index + 1 + " )"}</Text>
-                        <TextInput
-                            style={styles.workoutInput}
-                            value={workout.name}
-                            placeholder="Workout Name "
-                            onChangeText={(text) => handleInputChange(index, 'name', text)}
-                        />
-                        <Text style={styles.colon}>:</Text>
-                        <TextInput
-                            style={styles.workoutInput}
-                            value={workout.sets}
-                            placeholder="Sets"
-                            onChangeText={(text) => handleInputChange(index, 'sets', text)}
-                        />
-                        <Text style={styles.text}>x</Text>
-                        <TextInput
-                            style={styles.workoutInput}
-                            value={workout.reps}
-                            placeholder="Reps"
-                            onChangeText={(text) => handleInputChange(index, 'reps', text)}
-                        />
-                        <TextInput
-                            style={styles.workoutInput}
-                            value={workout.weight}
-                            placeholder="Weight"
-                            onChangeText={(text) => handleInputChange(index, 'weight', text)}
-                        />
-                        <Text style={styles.text}>lbs</Text>
-                        <TouchableOpacity onPress={() => removeWorkout(index)}>
-                            <Icon name="close" style={styles.closeIcon} size={20} color="red" />
-                        </TouchableOpacity>
-                    </View>
-                ))}
+                <ScrollView>
+                    {workouts.map((workout, index) => (
+                        <View key={index} style={styles.workoutContainer}>
+                            <Text style={styles.count}>{index + 1 + " )"}</Text>
+                            <TextInput
+                                style={styles.workoutInput}
+                                value={workout.name}
+                                placeholder="Workout Name "
+                                onChangeText={(text) => handleInputChange(index, 'name', text)}
+                            />
+                            <Text style={styles.colon}>:</Text>
+                            <TextInput
+                                style={styles.workoutInput}
+                                value={workout.sets}
+                                placeholder="Sets"
+                                onChangeText={(text) => handleInputChange(index, 'sets', text)}
+                            />
+                            <Text style={styles.text}>x</Text>
+                            <TextInput
+                                style={styles.workoutInput}
+                                value={workout.reps}
+                                placeholder="Reps"
+                                onChangeText={(text) => handleInputChange(index, 'reps', text)}
+                            />
+                            <TextInput
+                                style={styles.workoutInput}
+                                value={workout.weight}
+                                placeholder="Weight"
+                                onChangeText={(text) => handleInputChange(index, 'weight', text)}
+                            />
+                            <Text style={styles.text}>lbs</Text>
+                            <TouchableOpacity onPress={() => removeWorkout(index)}>
+                                <Icon name="close" style={styles.closeIcon} size={20} color="red" />
+                            </TouchableOpacity>
+                        </View>
+                    ))}
+                </ScrollView>
                 <View style={styles.addWorkout}>
                     <Button title="Add Workout" onPress={addWorkout} />
                 </View>
@@ -123,18 +129,26 @@ const styles = StyleSheet.create({
     formContainer: {
         width: '95%',
         marginBottom: 10,
+        marginTop: '10%',
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 15,
         paddingVertical: '5%',
         paddingHorizontal: '4%',
         backgroundColor: 'white',
+        maxHeight: '80%',
     },
     formNameContainer: {
         marginTop: 20,
     },
     workoutInput: {
-        height: 40,
+        textAlign: 'center',
+        borderBottomColor: 'gray',
+        borderBottomWidth: 1,
+        marginLeft: '2.5%',
+    },
+    workoutName: {
+        width: '40%',
         textAlign: 'center',
         borderBottomColor: 'gray',
         borderBottomWidth: 1,
@@ -169,12 +183,11 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     closeIcon: {
-        paddingLeft: 30,
+        paddingLeft: 20,
         paddingTop: 10,
     },
     text: {
         fontSize: 15,
-        paddingTop: 10,
         marginLeft: '2.5%',
     },
     colon: {
