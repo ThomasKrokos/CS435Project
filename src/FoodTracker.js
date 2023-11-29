@@ -244,7 +244,7 @@ const Foodtracker = ({ navigation }) => {
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
-          marginTop: "20%",
+          marginTop: "10%",
         }}
       >
         <View style={{ flex: 8 }}></View>
