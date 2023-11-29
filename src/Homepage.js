@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import WorkoutButton from "./WorkoutButton";
 
 /*********  Stuff for Step Counter  *********/
 import { useState, useEffect } from "react";
@@ -71,7 +73,7 @@ const Homepage = ({ navigation }) => {
               justifyContent: "flex-end",
               flex: 1,
               backgroundColor: pressed ? "#bbbbbb" : "#f2f2f2",
-              borderRadius: "50px",
+              // borderRadius: "50%",
               // #f2f2f2 is default background color
             },
           ]}
@@ -99,7 +101,7 @@ const Homepage = ({ navigation }) => {
         </Text>
       </View>
 
-      <View style={{ flex: 3, flexDirection: "row" }}>
+      <View style={{ justifyContent: 'space-evenly', flex: 3, flexDirection: "row" }}>
         <Pressable
           style={({ pressed }) => [
             styles.button,
@@ -144,29 +146,7 @@ const Homepage = ({ navigation }) => {
           </Text>
         </Pressable>
 
-        <Pressable
-          style={({ pressed }) => [
-            styles.button,
-            {
-              flex: 1,
-              padding: "5%",
-              backgroundColor: pressed ? "#bbbbbb" : "#000000",
-            },
-          ]}
-          onPress={() => navigation.navigate("Workouts")}
-        >
-          <Text
-            style={[
-              styles.buttonTitle,
-              {
-                fontSize: RFValue(26),
-                fontWeight: "bold",
-              },
-            ]}
-          >
-            Start New Workout Plan!
-          </Text>
-        </Pressable>
+        <WorkoutButton />
       </View>
 
       <View style={{ flex: 2, marginTop: "10%" }}>

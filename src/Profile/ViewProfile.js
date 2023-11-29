@@ -25,7 +25,7 @@ const ViewProfile = ({ navigation, name, gender, height, weight, age }) => {
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
-          margin: "5%, 0, 20%",
+          margin: "5%",
         }}
       >
         <View style={{ flex: 8 }}></View>
@@ -71,7 +71,7 @@ const ViewProfile = ({ navigation, name, gender, height, weight, age }) => {
         style={{
           flex: 0.6,
           flexDirection: "column",
-          margin: "0%, 10%",
+          margin: "0%",
         }}
       >
         <View
