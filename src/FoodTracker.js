@@ -1,5 +1,3 @@
-// calorie counter
-// macro counter
 import { StatusBar } from "expo-status-bar";
 import {
   Keyboard,
@@ -7,21 +5,14 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  Image,
   View,
 } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Popup from "./popup";
-
-const defaultNutrientTracker = {
-  currentCal: "Waiting for data...",
-  maxCal: "Waiting for data...",
-  currentProtein: "Waiting for data...",
-  maxProtein: "Waiting for data...",
-  date: "Waiting for data...",
-};
+import Popup from "./Popup";
 
 const Foodtracker = ({ navigation }) => {
   const [targetCal, SetTargetCal] = useState(0);
@@ -35,26 +26,21 @@ const Foodtracker = ({ navigation }) => {
   const getDate = () => {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var mm = String(today.getMonth() + 1).padStart(2, "0");
     var yyyy = today.getFullYear();
 
     today = mm + "/" + dd + "/" + yyyy;
-    console.log(today);
     return today;
   };
 
   const getMaxCalorie = (profileString) => {
     const profile = JSON.parse(profileString);
-    console.log(profileString);
-    console.log(profile);
 
     if (profile.gender === "Male") return profile.weight * 12;
     else return profile.weight * 10;
   };
   const getMaxProtein = (profileString) => {
     const profile = JSON.parse(profileString);
-    console.log(profileString);
-    console.log(profile);
     return profile.weight * 0.6;
   };
 
@@ -69,7 +55,6 @@ const Foodtracker = ({ navigation }) => {
         JSON.parse(nutrientTrackerString).date === getDate()
       ) {
         const nutrientTracker = JSON.parse(nutrientTrackerString);
-        console.log(nutrientTracker);
         SetTargetCal(nutrientTracker.targetCal);
         SetCurrentCal(nutrientTracker.currentCal);
         SetTargetProtein(nutrientTracker.targetProtein);
@@ -98,20 +83,39 @@ const Foodtracker = ({ navigation }) => {
     getNutrientTracker();
   }, []);
 
-  const updateCalorieCount = () => {
-    SetUpdatingCalories(!updatingCalories);
+  const updateCurrentCalorieLocally = async () => {
+    try {
+      const newNutrientTracker = {
+        currentCal: currentCal + popupInput,
+        targetCal: targetCal,
+        currentProtein: currentProtein,
+        targetProtein: targetProtein,
+        date: getDate(),
+      };
+
+      const newNutrientTrackerString = JSON.stringify(newNutrientTracker);
+      await AsyncStorage.setItem("nutrientTracker", newNutrientTrackerString);
+    } catch (e) {
+      console.error(e);
+    }
   };
-  const updateProteinCount = () => {
-    SetUpdatingProtein(!updatingProtein);
+  const updateCurrentProteinLocally = async () => {
+    try {
+      const newNutrientTracker = {
+        currentCal: currentCal,
+        targetCal: targetCal,
+        currentProtein: currentProtein + popupInput,
+        targetProtein: targetProtein,
+        date: getDate(),
+      };
+
+      const newNutrientTrackerString = JSON.stringify(newNutrientTracker);
+      await AsyncStorage.setItem("nutrientTracker", newNutrientTrackerString);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
-  //   NutrientTracker: {
-  //     currentCal: "" // current amount of calories you ate today so far
-  //     targetCal: "" // target amount of calories to eat based on profile.bodyweight
-  //     currentProtein: "" // current amount of protein you ate today so far
-  //     targetProtein: "" // target amount of protein based on profile.bodyweight
-  //     Date
-  // }
   return (
     <View style={[styles.container, { flex: 1, flexDirection: "column" }]}>
       <Popup isVisible={updatingCalories}>
@@ -125,24 +129,17 @@ const Foodtracker = ({ navigation }) => {
           onPress={Keyboard.dismiss}
         >
           <View style={[styles.Popup, { flexDirection: "column", flex: 0.5 }]}>
-            <View StyleSheet>
+            <View StyleSheet></View>
+            <Text style={[styles.header, { flex: 0.75 }]}>Add Calories</Text>
 
-            </View>
-            <Text style={[styles.header, { flex: 1 }]}>Add Calories</Text>
-            
-              <TextInput
-                width="40%"
-                style={[
-                  styles.textInput,
-                  { flex: 1 },
-                ]}
-                placeholder="0"
-                keyboardType="number-pad"
-                onChange={(event) => {
-                  SetPopupInput(Number(event.nativeEvent.text));
-                  console.log(event.nativeEvent.text);
-                }}
-              />
+            <TextInput
+              style={[styles.textInput, { flex: 1, marginBottom: "10%" }]}
+              placeholder="0"
+              keyboardType="number-pad"
+              onChange={(event) => {
+                SetPopupInput(Number(event.nativeEvent.text));
+              }}
+            />
 
             <View style={{ flexDirection: "row", flex: 1 }}>
               <Pressable
@@ -151,6 +148,7 @@ const Foodtracker = ({ navigation }) => {
                   SetCurrentCal(currentCal + popupInput);
                   SetUpdatingCalories(false);
                   SetPopupInput(0);
+                  updateCurrentCalorieLocally();
                 }}
               >
                 <Text style={[{ textAlign: "center", color: "#ffffff" }]}>
@@ -180,9 +178,122 @@ const Foodtracker = ({ navigation }) => {
           </View>
         </Pressable>
       </Popup>
+      <Popup isVisible={updatingProtein}>
+        <Pressable
+          style={[
+            styles.container,
+            {
+              flexDirection: "column",
+            },
+          ]}
+          onPress={Keyboard.dismiss}
+        >
+          <View style={[styles.Popup, { flexDirection: "column", flex: 0.5 }]}>
+            <View StyleSheet></View>
+            <Text style={[styles.header, { flex: 0.75 }]}>Add Protein </Text>
+
+            <TextInput
+              style={[styles.textInput, { flex: 1, marginBottom: "10%" }]}
+              placeholder="0"
+              keyboardType="number-pad"
+              onChange={(event) => {
+                SetPopupInput(Number(event.nativeEvent.text));
+              }}
+            />
+
+            <View style={{ flexDirection: "row", flex: 1 }}>
+              <Pressable
+                style={[styles.button, { flex: 0.5, padding: "10%" }]}
+                onPress={() => {
+                  SetCurrentProtein(currentProtein + popupInput);
+                  SetUpdatingProtein(false);
+                  SetPopupInput(0);
+                  updateCurrentProteinLocally();
+                }}
+              >
+                <Text style={[{ textAlign: "center", color: "#ffffff" }]}>
+                  Add
+                </Text>
+              </Pressable>
+              <Pressable
+                style={[
+                  styles.button,
+                  {
+                    flex: 0.5,
+                    padding: "10%",
+                    backgroundColor: "#ffffff",
+                    borderColor: "#000000",
+                    borderWidth: 2,
+                    borderStyle: "solid",
+                  },
+                ]}
+                onPress={() => {
+                  SetUpdatingProtein(false);
+                  SetPopupInput(0);
+                }}
+              >
+                <Text style={[{ textAlign: "center" }]}>Cancel</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Pressable>
+      </Popup>
+      <View
+        style={{
+          flex: 0.05,
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "20%",
+        }}
+      >
+        <View style={{ flex: 8 }}></View>
+        <Pressable
+          style={({ pressed }) => [
+            {
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+              flex: 1,
+              backgroundColor: pressed ? "#bbbbbb" : "#f2f2f2",
+            },
+          ]}
+          onPress={() => navigation.navigate("Home")}
+        >
+          <Image
+            source={require("../assets/close.png")}
+            style={{
+              width: "100%",
+              height: "100%",
+              flex: 1,
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+            }}
+            resizeMode="contain"
+          />
+        </Pressable>
+      </View>
+      <View
+        style={{
+          flex: 0.25,
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <View style={[styles.headerLine, { flex: 1 }]}>
+          <Text style={[styles.header, {}]}>Track your food</Text>
+        </View>
+      </View>
 
       <Pressable
-        style={[{ flex: 1, flexDirection: "row", alignItems: "center" }]}
+        style={[
+          {
+            flex: 0.3,
+            flexDirection: "row",
+            alignItems: "center",
+            padding: "0%",
+          },
+        ]}
         onPress={() => SetUpdatingCalories(true)}
       >
         <Text style={[styles.header, { flex: 1 }]}>
@@ -191,15 +302,19 @@ const Foodtracker = ({ navigation }) => {
       </Pressable>
 
       <Pressable
-        style={[{ flex: 1, flexDirection: "row", alignItems: "center" }]}
+        style={[
+          {
+            flex: 0.3,
+            flexDirection: "row",
+            alignItems: "center",
+            padding: "0%",
+          },
+        ]}
         onPress={() => SetUpdatingProtein(true)}
       >
         <Text style={[styles.header, { flex: 1 }]}>
-          Protein: {currentProtein} / {targetProtein}
+          Protein: {currentProtein} / {targetProtein} Grams
         </Text>
-      </Pressable>
-      <Pressable style={[{ flex: 2 }]} onPress={() => navigation.popToTop()}>
-        <Text>Return to Home</Text>
       </Pressable>
 
       <StatusBar style="auto" />
@@ -215,14 +330,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
-    // marginTop: "20%",
-    // marginBottom: "5%",
+    marginLeft: "5%",
+    marginRight: "5%",
   },
   header: {
     textAlign: "center",
     justifyContent: "center",
     fontWeight: "bold",
-    fontSize: RFValue(32),
+    fontSize: RFValue(28),
   },
 
   textInput: {
@@ -241,11 +356,6 @@ const styles = StyleSheet.create({
     padding: "5%",
   },
 
-  smallText: {
-    textAlign: "left",
-    justifyContent: "center",
-    fontSize: RFValue(20),
-  },
   Popup: {
     backgroundColor: "#f2f2f2",
     borderRadius: "20px",
@@ -261,14 +371,23 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   textInput: {
-    textAlign: "center",
-    justifyContent: "center",
     backgroundColor: "#ffffff",
     borderStyle: "solid",
     borderColor: "#A3A3A3",
     borderWidth: 1,
     borderRadius: 20,
-    padding: "10%",
-    fontSize: RFValue(16),
+    paddingTop: "5%",
+    paddingBottom: "5%",
+    paddingLeft: "20%",
+    paddingRight: "20%",
+    marginBottom: "5%",
+
+    fontSize: RFValue(28),
+  },
+  headerLine: {
+    paddingBottom: "5%",
+    borderBottomWidth: 1,
+    borderBottomColor: "#000000",
+    borderBottomStyle: "solid",
   },
 });

@@ -115,33 +115,14 @@ const Homepage = ({ navigation }) => {
             style={[
               styles.buttonTitle,
               {
-                fontSize: RFValue(18),
+                fontSize: RFValue(26),
                 fontWeight: "bold",
               },
             ]}
           >
-            Foodtracker
+            Track your food!
           </Text>
-          <Text
-            style={[
-              styles.buttonTitle,
-              {
-                fontSize: RFValue(16),
-              },
-            ]}
-          >
-            0/2000 Calories
-          </Text>
-          <Text
-            style={[
-              styles.buttonTitle,
-              {
-                fontSize: RFValue(14),
-              },
-            ]}
-          >
-            0/100 Grams Protein
-          </Text>
+
         </Pressable>
 
         <Pressable
