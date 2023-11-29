@@ -15,13 +15,11 @@ import { Pedometer } from "expo-sensors";
 
 const Homepage = ({ navigation }) => {
   /*********  Stuff for Step Counter  *********/
-  const [isPedometerAvailable, setIsPedometerAvailable] = useState("checking");
   const [pastStepCount, setPastStepCount] = useState(0);
   const [currentStepCount, setCurrentStepCount] = useState(0);
 
   const subscribe = async () => {
     const isAvailable = await Pedometer.isAvailableAsync();
-    setIsPedometerAvailable(String(isAvailable));
 
     if (isAvailable) {
       const end = new Date();
@@ -37,10 +35,24 @@ const Homepage = ({ navigation }) => {
       });
     }
   };
+  
+  const getLocalData = async () => {
+    try {
+      await AsyncStorage.multiRemove(['profile', 'nutrientTracker', 'split'])
+    } catch (e) {
+      console.error(e)
+    }
+    console.log("hi")
+
+    // console.log(values)
+
+  }
+
 
   useEffect(() => {
     const subscription = subscribe();
-    return () => subscription && subscription.remove();
+    getLocalData();
+    // return () => subscription && subscription.remove();
   }, []);
 
   return (
@@ -71,7 +83,10 @@ const Homepage = ({ navigation }) => {
               justifyContent: "flex-end",
               flex: 1,
               backgroundColor: pressed ? "#bbbbbb" : "#f2f2f2",
+<<<<<<< Updated upstream
               borderRadius: "50px",
+=======
+>>>>>>> Stashed changes
               // #f2f2f2 is default background color
             },
           ]}
