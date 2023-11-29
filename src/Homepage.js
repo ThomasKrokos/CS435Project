@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import WorkoutButton from "./WorkoutButton";
+import WorkoutButton from "./Workout/WorkoutButton";
 
 /*********  Stuff for Step Counter  *********/
 import { useState, useEffect } from "react";

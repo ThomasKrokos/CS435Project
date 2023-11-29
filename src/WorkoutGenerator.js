@@ -72,8 +72,10 @@ const WorkoutGenerator = ({ route }) => {
       name: name,
       workouts: [],
       component: (
-        <View style={styles.editButton}>
-          <Button title="Edit Form" onPress={() => navigation.navigate('WorkoutForm', { name: newForm.name, workouts: newForm.workouts })} />
+        <View >
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('WorkoutForm', { name: newForm.name, workouts: newForm.workouts })} >
+            <Text style={styles.smallButtonText}> Edit Form </Text>
+          </TouchableOpacity>
         </View>
       ),
     };
@@ -160,14 +162,16 @@ const WorkoutGenerator = ({ route }) => {
             {form.workouts.length > 0 && (
               <Text style={styles.editButton}>Workout Created!</Text>
             )}
-            <Button title="Remove Form" onPress={() => removeRoutineForm(index)} />
+            <TouchableOpacity style={styles.button} onPress={() => removeRoutineForm(index)} >
+              <Text style={styles.smallButtonText}> Remove Routine </Text>
+            </TouchableOpacity>
           </View>
         ))}
       </ScrollView>
       {splitName != "" && (
-        <View style={styles.saveForm}>
-          <Button title="Save Routine" onPress={saveRoutine} />
-        </View>
+        <TouchableOpacity style={styles.button} onPress={saveRoutine} >
+          <Text style={styles.buttonText}> Save Routine </Text>
+        </TouchableOpacity>
       )}
       {RoutineForms.length == 0 && (
         <View style={styles.dropdown}>
@@ -199,11 +203,29 @@ const styles = StyleSheet.create({
   },
   daysHeader: {
     alignSelf: 'center',
-    fontSize: 15
+    fontSize: 15,
+    marginBottom: '2.5%'
   },
   header: {
     fontSize: 20,
     marginTop: '20%',
+  },
+  button: {
+    backgroundColor: 'black',
+    marginTop: '2.5%'
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 20,
+    paddingHorizontal: '2.5%',
+    paddingVertical: '2.5%'
+  },
+  smallButtonText: {
+    color: 'white',
+    alignSelf: 'center',
+    fontSize: 15,
+    paddingHorizontal: '2%',
+    paddingVertical: '2%'
   },
   container: {
     flex: 1,
@@ -213,6 +235,7 @@ const styles = StyleSheet.create({
   },
   editButton: {
     marginVertical: '5%',
+    alignSelf: 'center',
     paddingHorizontal: '2.5%'
   },
   scrollView: {
@@ -273,20 +296,6 @@ const styles = StyleSheet.create({
   colon: {
     paddingBottom: 15,
     fontSize: 20,
-  },
-  dayToggleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  dayToggle: {
-    padding: 5,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: 'gray',
-  },
-  selectedDayToggle: {
-    backgroundColor: 'lightblue',
   },
   hr: {
     borderBottomColor: 'black',

@@ -106,14 +106,14 @@ const WorkoutForm = ({ route }) => {
                         </View>
                     ))}
                 </ScrollView>
-                <View style={styles.addWorkout}>
-                    <Button title="Add Workout" onPress={addWorkout} />
-                </View>
+                <TouchableOpacity style={styles.addWorkout} onPress={addWorkout} >
+                    <Text style={styles.addWorkoutText}> Add Workout </Text>
+                </TouchableOpacity>
             </View>
             {workouts.length > 0 && (
-                <View style={styles.saveForm}>
-                    <Button title="Save Form" onPress={saveForm} />
-                </View>
+                <TouchableOpacity style={styles.saveForm} onPress={saveForm} >
+                    <Text style={styles.buttonText}> Save Form </Text>
+                </TouchableOpacity>
             )}
         </View>
     );
@@ -133,6 +133,18 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: '5%',
         right: '5%',
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 20,
+        paddingHorizontal: '2.5%',
+        paddingVertical: '2.5%'
+    },
+    addWorkoutText: {
+        color: 'white',
+        fontSize: 15,
+        paddingHorizontal: '2%',
+        paddingVertical: '2%'
     },
     scrollView: {
         alignItems: 'center',
@@ -236,12 +248,14 @@ const styles = StyleSheet.create({
     addWorkout: {
         alignSelf: 'center',
         position: 'relative',
-        paddingTop: '2.5%',
-        width: 'fit-content'
+        marginTop: '2.5%',
+        width: 'fit-content',
+        backgroundColor: 'black',
     },
     saveForm: {
         position: 'absolute',
         bottom: '5%',
+        backgroundColor: 'black',
     },
     hr: {
         borderBottomColor: 'black',

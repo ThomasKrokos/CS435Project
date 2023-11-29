@@ -121,9 +121,9 @@ const WorkoutPage = () => {
                     </View>
                 ))}
             </ScrollView>
-            <View style={styles.deleteSplit}>
-                <Button title="Delete Split" onPress={deleteSplit}></Button>
-            </View>
+            <TouchableOpacity style={styles.deleteSplit} onPress={deleteSplit} >
+                <Text style={styles.buttonText}> Delete Split </Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -160,6 +160,13 @@ const styles = StyleSheet.create({
     deleteSplit: {
         alignSelf: 'center',
         marginVertical: '5%',
+        backgroundColor: 'black',
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 20,
+        paddingHorizontal: '2.5%',
+        paddingVertical: '2.5%'
     },
     editWorkout: {
         position: 'absolute',
