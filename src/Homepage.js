@@ -17,13 +17,11 @@ import { Pedometer } from "expo-sensors";
 
 const Homepage = ({ navigation }) => {
   /*********  Stuff for Step Counter  *********/
-  const [isPedometerAvailable, setIsPedometerAvailable] = useState("checking");
   const [pastStepCount, setPastStepCount] = useState(0);
   const [currentStepCount, setCurrentStepCount] = useState(0);
 
   const subscribe = async () => {
     const isAvailable = await Pedometer.isAvailableAsync();
-    setIsPedometerAvailable(String(isAvailable));
 
     if (isAvailable) {
       const end = new Date();
