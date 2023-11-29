@@ -98,7 +98,7 @@ const Profile = ({navigation, handleProfileCreation}) => {
                 // #f2f2f2 is default background color
               },
             ]}
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.push("Home")}
 
           >
             <Image
@@ -260,38 +260,6 @@ const Profile = ({navigation, handleProfileCreation}) => {
           </Pressable>
         </View>
 
-        <View style={{ flex: 0.07, marginLeft: "30%", marginTop: "5%" }}>
-          <Pressable
-            style={({ pressed }) => [
-              styles.button,
-              {
-                flex: 1,
-                padding: "2%",
-                backgroundColor: pressed ? "#bbbbbb" : "#000000",
-              },
-            ]}
-            onPress={async () => {
-              try {
-                await AsyncStorage.removeItem("profile");
-                console.log("Profile deleted");
-              } catch (e) {
-                console.error(e);
-              }
-            }}
-          >
-            <Text
-              style={[
-                styles.buttonTitle,
-                {
-                  fontSize: RFValue(18),
-                  fontWeight: "bold",
-                },
-              ]}
-            >
-              Clear current Profile
-            </Text>
-          </Pressable>
-        </View>
       </Pressable>
     </View>
   );

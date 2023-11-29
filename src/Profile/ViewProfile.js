@@ -14,9 +14,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 
 const ViewProfile = ({ navigation, name, gender, height, weight, age }) => {
-  useEffect(() => {
-    console.log(gender);
-  }, []);
   return (
     <View style={[styles.container, { flexDirection: "column", margin: "5%" }]}>
       <View
@@ -39,7 +36,7 @@ const ViewProfile = ({ navigation, name, gender, height, weight, age }) => {
               // #f2f2f2 is default background color
             },
           ]}
-          onPress={() => navigation.navigate("Home")}
+          onPress={() => navigation.push("Home")}
         >
           <Image
             source={require("../../assets/close.png")}
@@ -156,38 +153,7 @@ const ViewProfile = ({ navigation, name, gender, height, weight, age }) => {
           </Text>
         </Pressable>
       </View>
-      <View style={{ flex: 0.07, marginLeft: "30%", marginTop: "5%" }}>
-        <Pressable
-          style={({ pressed }) => [
-            styles.button,
-            {
-              flex: 1,
-              padding: "2%",
-              backgroundColor: pressed ? "#bbbbbb" : "#000000",
-            },
-          ]}
-          onPress={async () => {
-            try {
-              await AsyncStorage.removeItem("profile");
-              console.log("Profile deleted");
-            } catch (e) {
-              console.error(e);
-            }
-          }}
-        >
-          <Text
-            style={[
-              styles.buttonTitle,
-              {
-                fontSize: RFValue(18),
-                fontWeight: "bold",
-              },
-            ]}
-          >
-            Clear current Profile
-          </Text>
-        </Pressable>
-      </View>
+
     </View>
   );
 };
